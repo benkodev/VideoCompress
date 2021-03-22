@@ -17,7 +17,7 @@ class ObservableBuilder<T> {
         onError: onError, onDone: onDone, cancelOnError: cancelOnError);
     return Subscription(() {
       _observable.close();
-
+      notSubscribed = true;
       // Create a new instance to avoid errors
       _observable = StreamController();
     });
