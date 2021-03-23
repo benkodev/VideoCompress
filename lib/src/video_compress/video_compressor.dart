@@ -67,22 +67,22 @@ extension Compress on IVideoCompress {
   /// getFileThumbnail return [Future<File>]
   /// quality can be controlled by [quality] from 1 to 100,
   /// select the position unit in the video by [position] is seconds
-  Future<File> getFileThumbnail(
+  Future<File?> getFileThumbnail(
     String path, {
     int quality = 100,
     int position = -1,
   }) async {
     assert(quality > 1 || quality < 100);
 
-    final filePath = await (_invoke<String>('getFileThumbnail', {
+    String? filePath = await (_invoke<String>('getFileThumbnail', {
       'path': path,
       'quality': quality,
       'position': position,
-    }) as FutureOr<String>);
-
-    final file = File(filePath);
-
-    return file;
+    }));
+    if (filePath != null && filePath.isNotEmpty) {
+      return File(filePath);
+    }
+    return null;
   }
 
   /// get media information from [path]
@@ -94,10 +94,14 @@ extension Compress on IVideoCompress {
   /// final info = await _flutterVideoCompress.getMediaInfo(file.path);
   /// debugPrint(info.toJson());
   /// ```
-  Future<MediaInfo> getMediaInfo(String path) async {
-    final jsonStr = await (_invoke<String>('getMediaInfo', {'path': path}) as FutureOr<String>);
-    final jsonMap = json.decode(jsonStr);
-    return MediaInfo.fromJson(jsonMap);
+  Future<MediaInfo?> getMediaInfo(String path) async {
+    String? jsonStr = await (_invoke<String>('getMediaInfo', {'path': path}));
+    if (jsonStr != null) {
+      final jsonMap = json.decode(jsonStr);
+      return MediaInfo.fromJson(jsonMap);
+    } else {
+      return null;
+    }
   }
 
   /// compress video from [path]

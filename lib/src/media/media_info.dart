@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class MediaInfo {
-  String? path;
+  late String path;
   String? title;
   String? author;
   int? width;
@@ -40,7 +40,7 @@ class MediaInfo {
     filesize = json['filesize'];
     duration = double.tryParse('${json['duration']}');
     isCancel = json['isCancel'];
-    file = File(path!);
+    file = File(path);
   }
 
   Map<String, dynamic> toJson() {
@@ -58,7 +58,7 @@ class MediaInfo {
     if (this.isCancel != null) {
       data['isCancel'] = this.isCancel;
     }
-    data['file'] = File(path!).toString();
+    data['file'] = File(path).toString();
     return data;
   }
 }
