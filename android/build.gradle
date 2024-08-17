@@ -6,6 +6,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://benkodev.jfrog.io/artifactory/benkodev-generic-local"
+        }
     }
 
     dependencies {
@@ -55,5 +58,6 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 //    implementation 'com.otaliastudios:transcoder:0.9.1'
-    implementation fileTree(dir: 'libs', include: ['*.aar'])
+//    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation 'com.yourcompany:transcoder:0.9.1@aar'
 }
